@@ -72,6 +72,7 @@
 				context.drawImage(video, 0, 0, 640, 480);
 				var canvasImg = canvas.toDataURL("image/jpeg");
 				console.log(canvasImg);
+				
 				fetch('/picCaptured', {  
 					mode: 'same-origin',
 				    method: 'post',   
