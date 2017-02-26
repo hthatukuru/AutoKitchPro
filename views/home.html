@@ -60,13 +60,12 @@
 
         <section class="intro"></section>
 
-        <div class="container">
-		    <div id="login">
-		      <h1>Hello! Please login uncle!</h1>
-		      <a href="/login" class="btn btn-primary">Log in with Spotify</a>
-		    </div>
-	    </div>
-        <div class="container">
+       	<div class="inner cover">
+           <p class="lead">
+	      	<a href="/login" class="btn btn-lg btn-primary">Log in with Spotify</a>
+             <a href="camService" class="btn btn-lg btn-secondary" id = "captureImg">Lets Get Started!</a>
+            </p>
+        </div>
             <script type="text/javascript">
               (function() {
 
@@ -147,49 +146,7 @@
 			        }         
 		    	}
 		    })();
-
-
-              $(function() {
-                  var params = {
-                      // Request parameters
-                  };
-                  $.ajax({
-                      url: "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize?" + $.param(params),
-                      beforeSend: function(xhrObj){
-                          // Request headers
-                          xhrObj.setRequestHeader("Content-Type","application/json");
-                          xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","75e5ee1d26c1405eba04783b5abe5f3b");
-                      },
-                      type: "POST",
-                      // Request body , https://portalstoragewuprod.azureedge.net/emotion/recognition1.jpg
-                      data: '{ "Url": "https://portalstoragewuprod.azureedge.net/emotion/recognition1.jpg" }'
-                  })
-                  .done(function(data) {
-                      alert("success");
-                      if (data.length > 0) {
-                        alert(data[1].scores.happiness);
-                      }
-                      else {
-                          alert("No faces detected.");
-                      }
-                  })
-                  .fail(function() {
-                      alert("error");
-                  });
-              });
           </script>
-
-
-        <div id="line"></div>​
-    <!-- Code from Old Home Html -->
-  </div>
-
-
-          <div class="inner cover">
-            <p class="lead">
-              <a href="camService" class="btn btn-lg btn-secondary" id = "captureImg">Lets Get Started!</a>
-            </p>
-          </div>
 
         </div>
 
@@ -197,20 +154,6 @@
 
     </div>
 
-    <script>
-      // document.getElementById('captureImg').addEventListener('click', function() {
-      //   console.log("Life Sucks");
-
-      // });
-    </script>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-  <!--  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../static/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="../static/js/bootstrap.min.js"></script> -->
   </body>
 
 
