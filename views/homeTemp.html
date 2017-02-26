@@ -28,11 +28,11 @@
         width: 600px;
         margin: 50px auto;
         text-align: center;
-      }
+      }    
     </style>
   </head>
 
-  <body style="background-image:url(recordImg.jpg)">
+  <body>
 
     <div class="site-wrapper">
 
@@ -54,7 +54,7 @@
 
 <!-- Code from Old Home Html -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <div class="knockout" style="width:100%">DJarvis</div>
+        <div class="knockout">Jarvis for Music</div>
         <div class="container">
             <script type="text/javascript">
               $(function() {
@@ -95,8 +95,14 @@
 
           <div class="inner cover">
             <p class="lead">
-              <a href="camService" class="btn btn-lg btn-secondary" id = "captureImg">Capture Image!</a>
+              <a href="#" class="btn btn-lg btn-secondary" id = "captureImg">Capture Image!</a>
             </p>
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Cover template for <a href="https://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+            </div>
           </div>
 
         </div>
@@ -106,10 +112,23 @@
     </div>
 
     <script>
-      // document.getElementById('captureImg').addEventListener('click', function() {
-      //   console.log("Life Sucks");
-
-      // });
+      document.getElementById('captureImg').addEventListener('click', function() {
+        console.log("Life Sucks");
+        fetch('/camService', {  
+            mode: 'same-origin',
+            method: 'get',   
+            headers: {  
+              "Content-type": "application/json; charset=UTF-8"  
+            }
+          })
+          .then(json)  
+          .then(function (data) {  
+            console.log('Request succeeded with JSON response', data);  
+          })  
+          .catch(function (error) {  
+            console.log('Request failed', error);  
+          });
+      });
     </script>
 
     <!-- Bootstrap core JavaScript
