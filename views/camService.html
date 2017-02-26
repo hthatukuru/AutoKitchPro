@@ -9,7 +9,7 @@
   <link href="../static/css/camService.css" rel="stylesheet">
   <style>
 		video { border: 1px solid #ccc; display: block; margin: 0 auto; }
-		#canvas { margin-top: 20px; border: 1px solid #ccc; display: block; margin: 0 auto; }
+		#canvas { margin-top: 20px; border: 0px solid #ccc; display: block; margin: 0 auto; }
 	</style>
 </head>
 <body>
@@ -33,7 +33,7 @@
       </p>
     </div>
 
-		<canvas id="canvas" alignment="center" width="640" height="480"></canvas>
+		<canvas id="canvas" alignment="center" visible="false" width="640" height="480" ></canvas>
 	<script>
 
 		// Put event listeners into place
@@ -76,6 +76,7 @@
 			// Trigger photo take
 			document.getElementById('snap').addEventListener('click', function() {
 				context.drawImage(video, 0, 0, 640, 480);
+				// video.pause();
 				var canvasImg = canvas.toDataURL("image/jpeg");
 				//console.log(canvasImg);
 				fetch('/picCaptured', {
@@ -99,6 +100,7 @@
 			});
 
 				document.getElementById('playlist').addEventListener('click', function() {
+					// video.play();
 					document.body.innerHTML += '<form id="formTemp" action="/playlist" method="post"><input type="hidden" name="q" value="a"></form>';
 					document.getElementById("formTemp").submit();
 			});			

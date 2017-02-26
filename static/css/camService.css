@@ -9,7 +9,7 @@
 .btn-secondary,
 .btn-secondary:hover,
 .btn-secondary:focus {
-  color: #333;
+  color: #ffffff;
   text-shadow: none; /* Prevent inheritance from `body` */
   background-color: #000000;
   border: .05rem solid #fff;
@@ -24,14 +24,15 @@ html,
 body {
   height: 100%;
   /*background-color: #333;*/
-  background-image: url("bgd.jpg");
+  background-image: url("record2.PNG");
   background-color: #cccccc;
 }
 body {
   /*color: #fff;*/
-  background-image: url("bgd.jpg");
+  background-image: url("record2.PNG");
   text-align: center;
   text-shadow: 0 .05rem .1rem rgba(0,0,0,.5);
+  overflow: hidden;
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -110,6 +111,7 @@ body {
   padding: 0 1.5rem;
 }
 .cover .btn-lg {
+  color:#ffffff;
   padding: .75rem 1.25rem;
   font-weight: bold;
 }

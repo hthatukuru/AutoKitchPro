@@ -4,8 +4,11 @@
     <title>JSSample</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 </head>
-<body>
-		var happinessScore = 0;
+<body background="../static/css/record3.jpg" style="width:100%; height:100%;">
+		<!-- var happinessScore = 0; -->
+        <div align="middle">
+          <iframe src="https://embed.spotify.com/?uri=spotify%3Aalbum%3A2rp5riHULWgrXPsDtsp1ir" align="middle" width="600" height="760" frameborder="0" allowtransparency="true"></iframe> 
+        </div>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <div class="knockout" style="width:100%">DJarvis</div>
         <div class="container">
@@ -26,17 +29,17 @@
                       data: '{ "Url": "https://moodifystorage.blob.core.windows.net/jarviscontainer/tempImg.jpg" }'
                   })
                   .done(function(data) {
-                      alert("success");
+                      console.log("success");
                       if (data.length > 0) {
                       	happinessScore = data[0].scores.happiness;
-                        alert(happinessScore);
+                        console.log(happinessScore);
                       }
                       else {
-                          alert("No faces detected.");
+                          console.log("No faces detected.");
                       }
                   })
                   .fail(function() {
-                      alert("error");
+                      console.log("error");
                   });
               });
           </script>
