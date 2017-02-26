@@ -7,8 +7,11 @@ var bodyParser = require('body-parser');
 app.use(logger('dev'))
 app.use(express.static(__dirname + '/static'))
 
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencod
+//app.use(bodyParser.json()); // for parsing application/json
+//app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencod
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.get('/', function (req, res, next) {
   try {
@@ -21,7 +24,12 @@ app.get('/', function (req, res, next) {
 app.post("/picCaptured", function(request, response)
 {
   //image present in base64 format
-  console.log(request.body);
+  console.log(request.body.img);
+  var base64Data = request.body.img.replace(/^data:image\/jpeg;base64,/, "");
+
+  require("fs").writeFile("tempImg.jpeg", base64Data, 'base64', function(err) {
+    console.log(err);
+  });
 });
 
 
