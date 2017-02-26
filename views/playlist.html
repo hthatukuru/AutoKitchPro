@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSSample</title>
+    <title>Spotify Player</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../static/js/spotify-web-api.js"></script>
 </head>
+
 <body background="../static/css/record3.jpg" style="width:100%; height:100%;
         no-repeat center center fixed;
         -webkit-background-size: cover;
@@ -16,8 +19,14 @@
         </div>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <div class="knockout" style="width:100%">DJarvis</div>
+
         <div class="container">
+            <div id="widget" class="container"></div>
+
             <script type="text/javascript">
+
+              //console.log("retrieving",localStorage.access_token);
+
               $(function() {
                   var params = {
                       // Request parameters
@@ -34,10 +43,68 @@
                       data: '{ "Url": "https://moodifystorage.blob.core.windows.net/jarviscontainer/tempImg.jpg" }'
                   })
                   .done(function(data) {
-                      console.log("success");
+
                       if (data.length > 0) {
                       	happinessScore = data[0].scores.happiness;
-                        console.log(happinessScore);
+                        
+
+                      console.log("retrieving", localStorage.access_token); 
+                      $.ajax({
+                            url: 'https://api.spotify.com/v1/me',
+                            headers: {
+                              'Authorization': 'Bearer ' + localStorage.access_token
+                            },
+                            success: function(userResponse) {
+                            var userID = userResponse.id;
+                            console.log("userID", userID);
+                            var spotifyApi = new SpotifyWebApi();
+                            var limitOption = {
+                              "limit" : "1"
+                            };
+                            spotifyApi.setAccessToken(localStorage.access_token);
+                            console.log("start");
+                            spotifyApi.getMyTopArtists()
+                            .then(function(artistResponse){
+                              console.log("artist:", artistResponse.items);
+                              spotifyApi.getMyTopTracks(limitOption)
+                              .then(function(trackResponse) {
+                                var seeds = {
+                                  "seed_artists" : artistResponse.items[2].id,
+                                  "seed_tracks" : trackResponse.items[0].id
+                                };
+                                spotifyApi.getRecommendations(seeds)
+                                .then(function(recommendationResponse){
+                                  console.log("recommendation: ",recommendationResponse);
+                                  var trackList = []
+                                  for(var track in recommendationResponse.tracks) {
+                                    trackList.push("spotify:track:"+recommendationResponse.tracks[track].id)
+                                    console.log("tracklist: ",track);
+                                  }
+                                  var newPlaylistOptions = {
+                              "name": "DJarvis"
+                            };
+                                  spotifyApi.createPlaylist(userID, newPlaylistOptions)
+                                  .then(function(newPlaylistResponse){
+                                    console.log("new list id: ",newPlaylistResponse.id);
+                                    //console.log("tracklist: ",trackList);
+                                    var newPlaylistID = newPlaylistResponse.id;
+                                    spotifyApi.addTracksToPlaylist(userID, newPlaylistResponse.id, trackList, null)
+                                    .then(function(finalPlaylist){
+                                      if (happinessScore > 0.8) {
+                                      window.open("https://open.spotify.com/embed?uri=spotify:user:erebore:playlist:788MOXyTfcUb1tdw4oC7KJ","_self");
+                                    }else {
+                                      window.open("https://open.spotify.com/embed?uri=spotify%3Auser%3Aspotify%3Aplaylist%3A2PXdUld4Ueio2pHcB6sM8j","_self");
+                                    }
+                                      /*$('#widget').html('<iframe src="https://embed.spotify.com/?uri=spotify%3Auser%3Aspotify%3Aplaylist%3A'+newPlaylistResponse.id+'" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>');
+                                      console.log("done");*/
+                                    });
+                                  });
+                                });
+                              })
+                            });
+                        }
+                      });
+                    
                       }
                       else {
                           console.log("No faces detected.");
