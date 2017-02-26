@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSSample</title>
+    <title>Spotify Player</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 </head>
 <body>
 		var happinessScore = 0;
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <div class="knockout" style="width:100%">DJarvis</div>
         <div class="container">
+            <iframe id="widget" src="https://embed.spotify.com/?uri=spotify:user:erebore:playlist:788MOXyTfcUb1tdw4oC7KJ&theme=white&view=coverart" frameborder="0" allowtransparency="true"></iframe>
+            <script type="text/javascript" src="../static/js/spotify-web-api.js"></script>
             <script type="text/javascript">
+              //console.log("retrieving",localStorage.access_token);
+
               $(function() {
                   var params = {
                       // Request parameters
@@ -29,7 +33,59 @@
                       alert("success");
                       if (data.length > 0) {
                       	happinessScore = data[0].scores.happiness;
-                        alert(happinessScore);
+                        
+
+                       
+                      $.ajax({
+                            url: 'https://api.spotify.com/v1/me',
+                            headers: {
+                              'Authorization': 'Bearer ' + localStorage.access_token
+                            },
+                            success: function(userResponse) {
+                            var userID = userResponse.id;
+                            var spotifyApi = new SpotifyWebApi();
+                            var limitOption = {
+                              "limit" : "1"
+                            };
+                            spotifyApi.getMyTopArtists()
+                            .then(function(artistResponse){
+                              //console.log("artist:", artistResponse.items);
+                              spotifyApi.getMyTopTracks(limitOption)
+                              .then(function(trackResponse) {
+                                var seeds = {
+                                  "seed_artists" : artistResponse.items[2].id,
+                                  "seed_tracks" : trackResponse.items[0].id
+                                };
+                                spotifyApi.getRecommendations(seeds)
+                                .then(function(recommendationResponse){
+                                  //console.log("recommendation: ",recommendationResponse);
+                                  var trackList = []
+                                  for(var track in recommendationResponse.tracks) {
+                                    trackList.push("spotify:track:"+recommendationResponse.tracks[track].id)
+                                    //console.log("tracklist: ",track);
+                                  }
+                                  var newPlaylistOptions = {
+                              "name": "DJarvis"
+                            };
+                                  spotifyApi.createPlaylist(userID, newPlaylistOptions)
+                                  .then(function(newPlaylistResponse){
+                                    //console.log("new list: ",newPlaylistResponse);
+                                    //console.log("tracklist: ",trackList);
+                                    var newPlaylistID = newPlaylistResponse.id;
+                                    spotifyApi.addTracksToPlaylist(userID, newPlaylistResponse.id, trackList, null)
+                                    .then(function(finalPlaylist){
+                                      $('#widget').attr('src', "https://embed.spotify.com/?uri=spotify:user:erebore:playlist:"+newPlaylistResponse.id+"&theme=white&view=coverartnewPlaylistResponse");
+                                      //console.log(newPlaylistResponse.id);
+                                    });
+                                  });
+                                });
+                              })
+                            });
+                        }
+                      });
+                    
+
+
                       }
                       else {
                           alert("No faces detected.");

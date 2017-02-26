@@ -63,8 +63,8 @@
        	<div class="inner cover">
            <p class="lead">
 	      	<a href="/login" class="btn btn-lg btn-primary">Log in with Spotify</a>
-             <a href="camService" class="btn btn-lg btn-secondary" id = "captureImg">Lets Get Started!</a>
-            </p>
+            <a href="/camService" class="btn btn-lg btn-secondary" id = "captureImg">Lets Get Started!</button>
+           </p>
         </div>
             <script type="text/javascript">
               (function() {
@@ -89,63 +89,13 @@
 		            refresh_token = params.refresh_token,
 		            error = params.error;
 
-		        if (error) {
-		          alert('There was an error during the authentication');
-		        } else {
-			        if (access_token) {
-			        	$.ajax({
-			                url: 'https://api.spotify.com/v1/me',
-			                headers: {
-			                  'Authorization': 'Bearer ' + access_token
-			                },
-			                success: function(userResponse) {
-			                	var userID = userResponse.id;
-					            var spotifyApi = new SpotifyWebApi();
-					          	spotifyApi.setAccessToken(access_token);
-					          	var limitOption = {
-					          		"limit" : "1"
-					          	};
-					          	spotifyApi.getMyTopArtists()
-					          	.then(function(artistResponse){
-					          		//console.log("artist:", artistResponse.items);
-					          		spotifyApi.getMyTopTracks(limitOption)
-					          		.then(function(trackResponse) {
-						          		var seeds = {
-						          			"seed_artists" : artistResponse.items[2].id,
-						          			"seed_tracks" : trackResponse.items[0].id
-						          		};
-						          		spotifyApi.getRecommendations(seeds)
-						          		.then(function(recommendationResponse){
-						          			//console.log("recommendation: ",recommendationResponse);
-						          			var trackList = []
-						          			for(var track in recommendationResponse.tracks) {
-						          				trackList.push("spotify:track:"+recommendationResponse.tracks[track].id)
-						          				//console.log("tracklist: ",track);
-						          			}
-						          			var newPlaylistOptions = {
-											  "name": "DJarvis"
-											};
-						          			spotifyApi.createPlaylist(userID, newPlaylistOptions)
-						          			.then(function(newPlaylistResponse){
-						          				//console.log("new list: ",newPlaylistResponse);
-						          				//console.log("tracklist: ",trackList);
-						          				var newPlaylistID = newPlaylistResponse.id;
-						          				spotifyApi.addTracksToPlaylist(userID, newPlaylistResponse.id, trackList, null)
-						          				.then(function(finalPlaylist){
-						          					console.log(newPlaylistResponse.id);
-						          				});
-						          			});
-						          		});
-					          		})
-					          	});
-					        }
-			        	});
-			        } else {
-			            // render initial screen
-			            $('#login').show();
-			        }         
-		    	}
-		    })();
+		        //console.log("setting", access_token);
+
+                localStorage.setItem("access_token", access_token);
+
+		        
+		    	}) ();
+		   // })();
           </script>
 
         </div>
