@@ -31,6 +31,15 @@ app.use("/static" ,express.static(__dirname + '/static'))
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
+
+app.get('/camService', function (req, res, next) {
+  try {
+    res.sendFile(__dirname + '/views/camService.html');
+  } catch (e) {
+    next(e)
+  }
+});
+
 app.get('/', function (req, res, next) {
   try {
     res.sendFile(__dirname + '/views/home.html');
