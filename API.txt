@@ -1,0 +1,32 @@
+<script type="text/javascript">
+		    $(function() {
+		        var params = {
+		            // Request parameters
+		        };
+
+		        $.ajax({
+		            url: "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize?" + $.param(params),
+		            beforeSend: function(xhrObj){
+		                // Request headers
+		                xhrObj.setRequestHeader("Content-Type","application/json");
+		                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","75e5ee1d26c1405eba04783b5abe5f3b");
+		            },
+		            type: "POST",
+		            // Request body , https://portalstoragewuprod.azureedge.net/emotion/recognition1.jpg
+		            data: '{ "Url": "https://portalstoragewuprod.azureedge.net/emotion/recognition1.jpg" }'
+		        })
+		        .done(function(data) {
+		            alert("success");
+								if (data.length > 0) {
+									alert(data[1].scores.happiness);
+								}
+								else {
+			              alert("No faces detected.");
+
+			          }
+		        })
+		        .fail(function() {
+		            alert("error");
+		        });
+		    });
+		</script>
