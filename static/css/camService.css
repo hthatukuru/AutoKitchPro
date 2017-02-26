@@ -32,7 +32,6 @@ body {
   background-image: url("record2.PNG");
   text-align: center;
   text-shadow: 0 .05rem .1rem rgba(0,0,0,.5);
-  overflow: hidden;
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -111,9 +110,12 @@ body {
   padding: 0 1.5rem;
 }
 .cover .btn-lg {
-  color:#ffffff;
+  color:#000000;
   padding: .75rem 1.25rem;
   font-weight: bold;
+  background-color: #cccccc;
+  border: .05rem solid #fff;
+  border-radius: 10px;
 }
 
 
