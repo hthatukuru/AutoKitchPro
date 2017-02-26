@@ -5,6 +5,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 </head>
 <body>
+		var happinessScore = 0;
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <div class="knockout" style="width:100%">DJarvis</div>
         <div class="container">
@@ -27,7 +28,8 @@
                   .done(function(data) {
                       alert("success");
                       if (data.length > 0) {
-                        alert(data[0].scores.happiness);
+                      	happinessScore = data[0].scores.happiness;
+                        alert(happinessScore);
                       }
                       else {
                           alert("No faces detected.");
