@@ -28,11 +28,11 @@
         width: 600px;
         margin: 50px auto;
         text-align: center;
-      }
+      }    
     </style>
   </head>
 
-  <body background="blah.jpg">
+  <body>
 
     <div class="site-wrapper">
 
@@ -45,7 +45,7 @@
             <div class="inner">
               <nav class="nav nav-masthead">
                 <a class="nav-link active" href="#">Home</a>
-                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="#">Features</a>
                 <a class="nav-link" href="#">Contact</a>
               </nav>
             </div>
@@ -54,101 +54,9 @@
 
 <!-- Code from Old Home Html -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	    <script src="spotify-web-api.js"></script>
-        <div class="knockout" style="width:100%">DJarvis</div>
-
-        <section class="intro"></section>
-
-        <div class="container">
-		    <div id="login">
-		      <h1>Hello! Please login uncle!</h1>
-		      <a href="/login" class="btn btn-primary">Log in with Spotify</a>
-		    </div>
-	    </div>
+        <div class="knockout">Jarvis for Music</div>
         <div class="container">
             <script type="text/javascript">
-              (function() {
-
-		        /**
-		         * Obtains parameters from the hash of the URL
-		         * @return Object
-		         */
-		        function getHashParams() {
-		          var hashParams = {};
-		          var e, r = /([^&;=]+)=?([^&;]*)/g,
-		              q = window.location.hash.substring(1);
-		          while ( e = r.exec(q)) {
-		             hashParams[e[1]] = decodeURIComponent(e[2]);
-		          }
-		          return hashParams;
-		        }
-
-		        var params = getHashParams();
-
-		        var access_token = params.access_token,
-		            refresh_token = params.refresh_token,
-		            error = params.error;
-
-		        if (error) {
-		          alert('There was an error during the authentication');
-		        } else {
-			        if (access_token) {
-			        	$.ajax({
-			                url: 'https://api.spotify.com/v1/me',
-			                headers: {
-			                  'Authorization': 'Bearer ' + access_token
-			                },
-			                success: function(userResponse) {
-			                	var userID = userResponse.id;
-					            var spotifyApi = new SpotifyWebApi();
-					          	spotifyApi.setAccessToken(access_token);
-					          	var limitOption = {
-					          		"limit" : "1"
-					          	};
-					          	spotifyApi.getMyTopArtists()
-					          	.then(function(artistResponse){
-					          		//console.log("artist:", artistResponse.items);
-					          		spotifyApi.getMyTopTracks(limitOption)
-					          		.then(function(trackResponse) {
-						          		var seeds = {
-						          			"seed_artists" : artistResponse.items[2].id,
-						          			"seed_tracks" : trackResponse.items[0].id
-						          		};
-						          		spotifyApi.getRecommendations(seeds)
-						          		.then(function(recommendationResponse){
-						          			//console.log("recommendation: ",recommendationResponse);
-						          			var trackList = []
-						          			for(var track in recommendationResponse.tracks) {
-						          				trackList.push("spotify:track:"+recommendationResponse.tracks[track].id)
-						          				//console.log("tracklist: ",track);
-						          			}
-						          			var newPlaylistOptions = {
-											  "name": "DJarvis"
-											};
-						          			spotifyApi.createPlaylist(userID, newPlaylistOptions)
-						          			.then(function(newPlaylistResponse){
-						          				//console.log("new list: ",newPlaylistResponse);
-						          				//console.log("tracklist: ",trackList);
-						          				var newPlaylistID = newPlaylistResponse.id;
-						          				spotifyApi.addTracksToPlaylist(userID, newPlaylistResponse.id, trackList, null)
-						          				.then(function(finalPlaylist){
-						          					console.log(newPlaylistResponse.id);
-						          				});
-						          			});
-						          		});
-					          		})
-					          	});
-					        }
-			        	});
-			        } else {
-			            // render initial screen
-			            $('#login').show();
-			        }         
-		    	}
-		    })();
-
-
               $(function() {
                   var params = {
                       // Request parameters
@@ -187,8 +95,14 @@
 
           <div class="inner cover">
             <p class="lead">
-              <a href="camService" class="btn btn-lg btn-secondary" id = "captureImg">Lets Get Started!</a>
+              <a href="#" class="btn btn-lg btn-secondary" id = "captureImg">Capture Image!</a>
             </p>
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Cover template for <a href="https://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+            </div>
           </div>
 
         </div>
@@ -198,10 +112,23 @@
     </div>
 
     <script>
-      // document.getElementById('captureImg').addEventListener('click', function() {
-      //   console.log("Life Sucks");
-
-      // });
+      document.getElementById('captureImg').addEventListener('click', function() {
+        console.log("Life Sucks");
+        fetch('/camService', {  
+            mode: 'same-origin',
+            method: 'get',   
+            headers: {  
+              "Content-type": "application/json; charset=UTF-8"  
+            }
+          })
+          .then(json)  
+          .then(function (data) {  
+            console.log('Request succeeded with JSON response', data);  
+          })  
+          .catch(function (error) {  
+            console.log('Request failed', error);  
+          });
+      });
     </script>
 
     <!-- Bootstrap core JavaScript

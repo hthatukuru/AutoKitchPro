@@ -4,11 +4,12 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-	<title>Camera and Video Control with HTML5 Example</title>
+	<title>Camera and Video Control</title>
 	<meta name="description" content="Access the desktop camera and video using HTML, JavaScript, and Canvas.  The camera may be controlled using HTML5 and getUserMedia." />
-	<style>
-		video { border: 1px solid #ccc; display: block; margin: 0 0 20px 0; }
-		#canvas { margin-top: 20px; border: 1px solid #ccc; display: block; }
+  <link href="../static/css/camService.css" rel="stylesheet">
+  <style>
+		video { border: 1px solid #ccc; display: block; margin: 0 auto; }
+		#canvas { margin-top: 20px; border: 1px solid #ccc; display: block; margin: 0 auto; }
 	</style>
 </head>
 <body>
@@ -24,10 +25,15 @@
 		client supports video/camera, but for the sake of illustrating the
 		elements involved, they are created with markup (not JavaScript)
 	-->
-		<video id="video" width="640" height="480" autoplay></video>
-		<button id="snap" class="sexyButton">Snap Photo</button>
-		<canvas id="canvas" width="640" height="480"></canvas>
+		<video id="video" alignment="center" width="640" height="480" autoplay></video>
+    <div class="inner cover">
+      <p class="lead">
+        <a id="snap" class="btn btn-lg btn-secondary">Snap Photo</a>
+        <a id="playlist" class="btn btn-lg btn-secondary">Go To Playlist</a>
+      </p>
+    </div>
 
+		<canvas id="canvas" alignment="center" width="640" height="480"></canvas>
 	<script>
 
 		// Put event listeners into place
@@ -71,19 +77,19 @@
 			document.getElementById('snap').addEventListener('click', function() {
 				context.drawImage(video, 0, 0, 640, 480);
 				var canvasImg = canvas.toDataURL("image/jpeg");
-				console.log(canvasImg);
-				
-				fetch('/picCaptured', {  
+				//console.log(canvasImg);
+				fetch('/picCaptured', {
 					mode: 'same-origin',
-				    method: 'post',   
+				    method: 'post',
 				 	body:JSON.stringify({
 				 		img: canvasImg
 				 	}),
-				 	headers: {  
-				      "Content-type": "application/json; charset=UTF-8"  
+
+				 	headers: {
+				      "Content-type": "application/json; charset=UTF-8"
 				    }
 				  })
-				  .then(json)  
+				  //.then(function(res){ return res.json(); })
 				  .then(function (data) {  
 				    console.log('Request succeeded with JSON response', data);  
 				  })  
@@ -91,6 +97,11 @@
 				    console.log('Request failed', error);  
 				  });
 			});
+
+				document.getElementById('playlist').addEventListener('click', function() {
+					document.body.innerHTML += '<form id="formTemp" action="/playlist" method="post"><input type="hidden" name="q" value="a"></form>';
+					document.getElementById("formTemp").submit();
+			});			
 		}, false);
 	</script>
 
@@ -108,7 +119,7 @@ window.addEventListener('load', function() {
 	var w = window;
 	var firstScript = d.getElementsByTagName(s)[0];
 
-	
+
 	(function() {
 		var first_paragraph = document.getElementsByTagName('p')[0];
 		if(first_paragraph) {
