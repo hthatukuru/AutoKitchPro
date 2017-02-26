@@ -7,9 +7,7 @@ with respect to a parameter called valence which is integrated with the Spotify 
 A valence parameter ranging from 0-1 helps convey the positivity of the song and compares with the Cognitive APIs detection of emotions of the person and this coherency helps achieve the ideal playlist whether the user is sad or happy.
 
 Technologies Used:
-
-1) Microsoft Cognitive Emotions API
-2) Spotify Web API
+Microsoft Cognitive Emotions API, Spotify Web API
 
 Back-End:
 Node.js
