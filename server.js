@@ -18,7 +18,11 @@ emotion.emotionRecognition()
     });
 */
 app.use(logger('dev'))
-app.use(express.static(__dirname + '/static'))
+app.use("/static" ,express.static(__dirname + '/static'))
+
+// app.get('/static/css/homeCSS.css', function (req, res, next){
+//   res.sendFile("static/css/homeCSS.css");
+// }
 
 app.get('/', function (req, res, next) {
   try {
