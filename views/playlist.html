@@ -6,8 +6,20 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="../static/js/spotify-web-api.js"></script>
 </head>
-<body>
-        <div class="knockout" style="width:100%"><h1>Loading...</h1></div>
+
+<body background="../static/css/record3.jpg" style="width:100%; height:100%;
+        no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;">
+		<!-- var happinessScore = 0; -->
+        <div align="middle">
+          <iframe src="https://embed.spotify.com/?uri=spotify%3Aalbum%3A2rp5riHULWgrXPsDtsp1ir" align="middle" width="600" height="760" frameborder="0" allowtransparency="true"></iframe> 
+        </div>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <div class="knockout" style="width:100%">DJarvis</div>
+
         <div class="container">
             <div id="widget" class="container"></div>
 
@@ -31,6 +43,7 @@
                       data: '{ "Url": "https://moodifystorage.blob.core.windows.net/jarviscontainer/tempImg.jpg" }'
                   })
                   .done(function(data) {
+
                       if (data.length > 0) {
                       	happinessScore = data[0].scores.happiness;
                         
@@ -92,15 +105,13 @@
                         }
                       });
                     
-
-
                       }
                       else {
-                          alert("No faces detected.");
+                          console.log("No faces detected.");
                       }
                   })
                   .fail(function() {
-                      alert("error");
+                      console.log("error");
                   });
               });
           </script>
