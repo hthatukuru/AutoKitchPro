@@ -26,3 +26,5 @@ Node.js
 
 Front-end:
 Javascript, AJAX, HTML/CSS
+
+Link: https://www.youtube.com/watch?v=lgpRvocmgg0
